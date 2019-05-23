@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	conn        = flag.String("c", "localhost:7000", "<connection:port> to send to")
+	conn        = flag.String("c", "localhost:9090", "<connection:port> to send to")
 	filename    = flag.String("f", "", "file to send")
 	readtimeout = flag.Int("rt", 3000, "timeout in seconds for reading ACK")
 	looptimeout = flag.Int("wt", 0, "timeout in seconds to wait between loops")
@@ -105,6 +105,6 @@ func run() error {
 func main() {
 	defer common.Cleanup()
 
-	common.New(&common.App{"hl7send", "1.0.3", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil,nil, nil, run, time.Duration(9)}, []string{"f"})
+	common.New(&common.App{"hl7send", "1.0.3", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil, nil, nil, run, time.Duration(9)}, []string{"f"})
 	common.Run()
 }
