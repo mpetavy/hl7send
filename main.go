@@ -105,6 +105,6 @@ func run() error {
 func main() {
 	defer common.Cleanup()
 
-	common.New(&common.App{"hl7send", "1.0.3", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil, nil, nil, run, time.Duration(9)}, []string{"f"})
+	common.New(&common.App{"hl7send", "1.0.4", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil, nil, nil, run, time.Duration(9)}, []string{"f"})
 	common.Run()
 }
