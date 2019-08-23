@@ -21,6 +21,10 @@ var (
 	plain       = flag.Bool("p", false, "no MLLP framing, just send")
 )
 
+func init() {
+	common.Init("hl7send", "1.0.4", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil, nil, run, 0)
+}
+
 func run() error {
 	b, err := common.FileExists(*filename)
 	if err != nil {
@@ -105,6 +109,5 @@ func run() error {
 func main() {
 	defer common.Cleanup()
 
-	common.New(&common.App{"hl7send", "1.0.4", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil, nil, run, time.Duration(9)}, []string{"f"})
-	common.Run()
+	common.Run([]string{"f"})
 }
