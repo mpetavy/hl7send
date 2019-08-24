@@ -107,7 +107,7 @@ func run() error {
 }
 
 func main() {
-	defer common.Cleanup()
+	defer common.Done()
 
 	common.Run([]string{"f"})
 }
