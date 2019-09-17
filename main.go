@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
-	"os"
 	"time"
 
 	"github.com/mpetavy/common"
@@ -32,14 +31,16 @@ func run() error {
 	}
 
 	if !b {
-		fmt.Fprintf(os.Stderr, "unknown file: "+*filename)
+		common.Error(fmt.Errorf("unknown file: %s", *filename))
 	}
 
 	conn, err := net.Dial("tcp", *conn)
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
+	defer func() {
+		common.DebugError(conn.Close())
+	}()
 
 	for c := 0; c < *loop; c++ {
 		if *loop > 1 {
