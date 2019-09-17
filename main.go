@@ -16,8 +16,8 @@ var (
 	conn        = flag.String("c", "localhost:9090", "<connection:port> to send to")
 	filename    = flag.String("f", "", "file to send")
 	readtimeout = flag.Int("rt", 3000, "timeout in seconds for reading ACK")
-	looptimeout = flag.Int("wt", 0, "timeout in seconds to wait between loops")
-	loop        = flag.Bool("l", false, "looping")
+	looptimeout = flag.Int("wt", 1000, "timeout in seconds to wait between loops")
+	loop        = flag.Int("l", 1, "count loop")
 	plain       = flag.Bool("p", false, "no MLLP framing, just send")
 )
 
@@ -41,12 +41,8 @@ func run() error {
 	}
 	defer conn.Close()
 
-	doLoop := true
-	c := 0
-
-	for doLoop {
-		c++
-		if *loop {
+	for c := 0; c < *loop; c++ {
+		if *loop > 1 {
 			fmt.Printf("Loop: #%d\n", c)
 		}
 
@@ -74,9 +70,8 @@ func run() error {
 		common.Debug("Bytes written: %d", n)
 
 		if *readtimeout > 0 {
-			ti := time.Millisecond * time.Duration(*readtimeout)
-			common.Debug("SetReadDeadline: %v", ti)
-			conn.SetReadDeadline(time.Now().Add(ti))
+			common.Debug("SetReadDeadline: %v", *readtimeout)
+			err := conn.SetReadDeadline(time.Now().Add(common.MsecToDuration(*readtimeout)))
 			if err != nil {
 				return err
 			}
@@ -98,9 +93,13 @@ func run() error {
 
 		fmt.Printf("%s\n", s)
 
-		time.Sleep(time.Millisecond * time.Duration(*looptimeout))
+		if *loop > 1 && (c+1) < *loop {
+			time.Sleep(time.Millisecond * time.Duration(*looptimeout))
 
-		doLoop = *loop
+			continue
+		}
+
+		break
 	}
 
 	return nil
