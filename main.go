@@ -21,7 +21,7 @@ var (
 )
 
 func init() {
-	common.Init("hl7send", "1.0.4", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, "https://github.com/mpetavy/hl7send", false, nil, nil, run, 0)
+	common.Init("1.0.4", "2018", "Send HL7/TXT files", "mpetavy", common.APACHE, false, nil, nil, run, 0)
 }
 
 func run() error {
