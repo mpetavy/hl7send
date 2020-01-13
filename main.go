@@ -39,7 +39,7 @@ func run() error {
 		return err
 	}
 	defer func() {
-		common.WarnError(conn.Close())
+		common.Error(conn.Close())
 	}()
 
 	for c := 0; c < *loop; c++ {
