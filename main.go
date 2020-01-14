@@ -72,7 +72,7 @@ func run() error {
 
 		if *readtimeout > 0 {
 			common.Debug("SetReadDeadline: %v", *readtimeout)
-			err := conn.SetReadDeadline(time.Now().Add(common.MsecToDuration(*readtimeout)))
+			err := conn.SetReadDeadline(time.Now().Add(common.MillisecondToDuration(*readtimeout)))
 			if err != nil {
 				return err
 			}
