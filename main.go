@@ -15,7 +15,7 @@ var (
 	conn        = flag.String("c", "localhost:9090", "<connection:port> to send to")
 	filename    = flag.String("f", "", "file to send")
 	readtimeout = flag.Int("rt", 3000, "timeout in seconds for reading ACK")
-	looptimeout = flag.Int("wt", 1000, "timeout in seconds to wait between loops")
+	looptimeout = flag.Int("lt", 1000, "timeout in seconds to wait between loops")
 	loop        = flag.Int("l", 1, "count loop")
 	plain       = flag.Bool("p", false, "no MLLP framing, just send")
 )
@@ -76,23 +76,23 @@ func run() error {
 			if err != nil {
 				return err
 			}
+
+			receiveBuffer := make([]byte, 1024*1024)
+
+			n, err = conn.Read(receiveBuffer)
+			if err != nil {
+				return err
+			}
+
+			if !*plain {
+				receiveBuffer = receiveBuffer[1 : n-2]
+			}
+
+			s := string(receiveBuffer)
+			s = common.ConvertToOSspecificLF(s)
+
+			fmt.Printf("%s\n", s)
 		}
-
-		receiveBuffer := make([]byte, 1024*1024)
-
-		n, err = conn.Read(receiveBuffer)
-		if err != nil {
-			return err
-		}
-
-		if !*plain {
-			receiveBuffer = receiveBuffer[1 : n-2]
-		}
-
-		s := string(receiveBuffer)
-		s = common.ConvertToOSspecificLF(s)
-
-		fmt.Printf("%s\n", s)
 
 		if *loop > 1 && (c+1) < *loop {
 			time.Sleep(time.Millisecond * time.Duration(*looptimeout))
