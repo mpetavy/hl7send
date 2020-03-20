@@ -3,13 +3,16 @@ module github.com/mpetavy/hl7send
 go 1.12
 
 require (
-	github.com/golang/protobuf v1.3.4 // indirect
-	github.com/mattn/go-colorable v0.1.6 // indirect
-	github.com/mpetavy/common v1.1.20
-	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d // indirect
-	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b // indirect
-	google.golang.org/api v0.19.0 // indirect
-	google.golang.org/genproto v0.0.0-20200227132054-3f1135a288c9 // indirect
+	cloud.google.com/go v0.55.0 // indirect
+	github.com/gabriel-vasile/mimetype v1.0.4 // indirect
+	github.com/go-ini/ini v1.55.0 // indirect
+	github.com/gookit/color v1.2.3 // indirect
+	github.com/labstack/echo-contrib v0.9.0 // indirect
+	github.com/labstack/echo/v4 v4.1.15 // indirect
+	github.com/mpetavy/common v1.1.21
+	golang.org/x/crypto v0.0.0-20200317142112-1b76d66859c6 // indirect
+	golang.org/x/net v0.0.0-20200319234117-63522dbf7eec // indirect
+	google.golang.org/genproto v0.0.0-20200319113533-08878b785e9c // indirect
 )
 
 // replace github.com/mpetavy/common => ../common
