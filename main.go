@@ -21,7 +21,7 @@ var (
 )
 
 func init() {
-	common.Init("1.0.4", "2018", "Send HL7/TXT files", "mpetavy", fmt.Sprintf("https://github.com/mpetavy/%s", common.Title()), common.APACHE, nil, nil, run, 0)
+	common.Init(false, "1.0.4", "2018", "Send HL7/TXT files", "mpetavy", fmt.Sprintf("https://github.com/mpetavy/%s", common.Title()), common.APACHE, nil, nil, run, 0)
 }
 
 func run() error {
