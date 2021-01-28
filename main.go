@@ -25,13 +25,8 @@ func init() {
 }
 
 func run() error {
-	b, err := common.FileExists(*filename)
-	if err != nil {
-		return err
-	}
-
-	if !b {
-		common.Error(fmt.Errorf("unknown file: %s", *filename))
+	if !common.FileExists(*filename) {
+		return &common.ErrFileNotFound{*filename}
 	}
 
 	conn, err := net.Dial("tcp", *conn)
