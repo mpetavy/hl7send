@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net"
+	"os"
 	"time"
 
 	"github.com/mpetavy/common"
@@ -43,7 +43,7 @@ func run() error {
 		}
 
 		common.Debug("Read bytes")
-		sendBuffer, err := ioutil.ReadFile(*filename)
+		sendBuffer, err := os.ReadFile(*filename)
 		if err != nil {
 			return err
 		}
