@@ -2,6 +2,6 @@ module github.com/mpetavy/hl7send
 
 go 1.16
 
-require github.com/mpetavy/common v1.1.111
+require github.com/mpetavy/common v1.1.112
 
 //replace github.com/mpetavy/common => ../common
