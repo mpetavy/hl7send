@@ -29,7 +29,7 @@ func run() error {
 		return &common.ErrFileNotFound{*filename}
 	}
 
-	conn, err := net.Dial("tcp", *conn)
+	conn, err := net.DialTimeout("tcp", *conn, common.MillisecondToDuration(*common.FlagIoConnectTimeout))
 	if err != nil {
 		return err
 	}
