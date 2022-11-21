@@ -2,7 +2,7 @@ module github.com/mpetavy/hl7send
 
 go 1.19
 
-require github.com/mpetavy/common v1.5.7
+require github.com/mpetavy/common v1.5.8
 
 require (
 	cloud.google.com/go v0.88.0 // indirect
@@ -14,6 +14,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
 	github.com/gookit/color v1.5.0 // indirect
 	github.com/gorilla/context v1.1.1 // indirect
