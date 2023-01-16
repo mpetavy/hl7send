@@ -2,9 +2,9 @@ package main
 
 import (
 	"bytes"
+	"crypto/tls"
 	"flag"
 	"fmt"
-	"net"
 	"os"
 	"time"
 
@@ -18,6 +18,7 @@ var (
 	looptimeout = flag.Int("lt", 1000, "timeout in seconds to wait between loops")
 	loop        = flag.Int("l", 1, "count loop")
 	plain       = flag.Bool("p", false, "no MLLP framing, just send")
+	useTls      = flag.Bool("tls", false, "Use TLS")
 )
 
 func init() {
@@ -29,12 +30,37 @@ func run() error {
 		return &common.ErrFileNotFound{*filename}
 	}
 
-	conn, err := net.DialTimeout("tcp", *conn, common.MillisecondToDuration(*common.FlagIoConnectTimeout))
-	if err != nil {
+	var tlsConfig *tls.Config
+	var err error
+
+	if *useTls {
+		tlsConfig, err = common.NewTlsConfigFromFlags()
+		if common.Error(err) {
+			return err
+		}
+	}
+
+	ep, connector, err := common.NewEndpoint(*conn, true, tlsConfig)
+	if common.Error(err) {
 		return err
 	}
+
+	err = ep.Start()
+	if common.Error(err) {
+		return err
+	}
+
 	defer func() {
-		common.Error(conn.Close())
+		common.Error(ep.Stop())
+	}()
+
+	connection, err := connector()
+	if common.Error(err) {
+		return err
+	}
+
+	defer func() {
+		common.DebugError(connection.Close())
 	}()
 
 	for c := 0; c < *loop; c++ {
@@ -59,7 +85,7 @@ func run() error {
 		}
 
 		common.Debug("send bytes")
-		n, err := conn.Write(sendBuffer)
+		n, err := connection.Write(sendBuffer)
 		if err != nil {
 			return err
 		}
@@ -67,14 +93,14 @@ func run() error {
 
 		if *readtimeout > 0 {
 			common.Debug("SetReadDeadline: %v", *readtimeout)
-			err := conn.SetReadDeadline(time.Now().Add(common.MillisecondToDuration(*readtimeout)))
+			err := connection.SetReadDeadline(time.Now().Add(common.MillisecondToDuration(*readtimeout)))
 			if err != nil {
 				return err
 			}
 
 			receiveBuffer := make([]byte, 1024*1024)
 
-			n, err = conn.Read(receiveBuffer)
+			n, err = connection.Read(receiveBuffer)
 			if err != nil {
 				return err
 			}
