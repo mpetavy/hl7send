@@ -2,7 +2,7 @@ module github.com/mpetavy/hl7send
 
 go 1.19
 
-require github.com/mpetavy/common v1.5.18
+require github.com/mpetavy/common v1.5.20
 
 require (
 	cloud.google.com/go v0.88.0 // indirect
