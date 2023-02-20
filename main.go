@@ -127,7 +127,7 @@ func run() error {
 			}
 
 			if *loopCount > 1 && (c+1) < *loopCount {
-				time.Sleep(time.Millisecond * time.Duration(*looptimeout))
+				common.Sleep(time.Millisecond * time.Duration(*looptimeout))
 			}
 
 			return nil
