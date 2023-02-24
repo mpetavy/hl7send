@@ -20,6 +20,7 @@ var (
 	plain       = flag.Bool("p", false, "no MLLP framing, just send")
 	useTls      = flag.Bool("tls", false, "Use TLS")
 	useACK      = flag.Bool("ack", false, "Use ACK")
+	recursive   = flag.Bool("r", false, "Recursive directory scan")
 )
 
 func init() {
@@ -112,13 +113,15 @@ func run() error {
 	}()
 
 	for c := 0; c < *loopCount; c++ {
-		fw, err := common.NewFilewalker(*filename, true, false, func(path string, f os.FileInfo) error {
+		fw, err := common.NewFilewalker(*filename, *recursive, false, func(path string, f os.FileInfo) error {
 			if f.IsDir() {
 				return nil
 			}
 
 			if *loopCount > 1 {
-				fmt.Printf("Loop: #%d: %s\n", c, path)
+				common.Info("Loop: #%d: %s\n", c, path)
+			} else {
+				common.Info("%s\n", path)
 			}
 
 			err := send(connection, path)
