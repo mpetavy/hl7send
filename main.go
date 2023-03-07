@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/mpetavy/common"
@@ -17,10 +18,12 @@ var (
 	readtimeout = flag.Int("rt", 3000, "timeout in seconds for reading ACK")
 	looptimeout = flag.Int("lt", 1000, "timeout in seconds to wait between loops")
 	loopCount   = flag.Int("lc", 1, "count loop")
-	plain       = flag.Bool("p", false, "no MLLP framing, just send")
 	useTls      = flag.Bool("tls", false, "Use TLS")
 	useACK      = flag.Bool("ack", false, "Use ACK")
 	recursive   = flag.Bool("r", false, "Recursive directory scan")
+
+	HL7Start = []byte{0xb}
+	HL7End   = []byte{0x1c, 0xd}
 )
 
 func init() {
@@ -28,30 +31,35 @@ func init() {
 }
 
 func send(connection common.EndpointConnection, filename string) error {
-	sendBuffer, err := os.ReadFile(filename)
+	common.Info(strings.Repeat("-", 40))
+
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return err
 	}
 
-	if !*plain {
-		common.Debug("Add MLLP framing")
+	common.Info("Send file %s:", filename)
 
-		sendBuf := bytes.Buffer{}
-		sendBuf.Write([]byte{0xb})
-		sendBuf.Write(sendBuffer)
-		sendBuf.Write([]byte{0x1c, 0xd})
+	buf := bytes.Buffer{}
+	buf.Write(HL7Start)
+	buf.Write(content)
+	buf.Write(HL7End)
 
-		sendBuffer = sendBuf.Bytes()
-	}
+	common.Info("")
+	common.Info("%q\n", buf.Bytes())
+	common.Info("")
 
-	common.Debug("send bytes")
-	n, err := connection.Write(sendBuffer)
+	n, err := connection.Write(buf.Bytes())
 	if err != nil {
 		return err
 	}
-	common.Debug("File: %s bytes written: %d", filename, n)
+
+	common.Info("Bytes sent: %d", n)
 
 	if *useACK {
+		common.Info("")
+		common.Info("Wait for ACK...")
+
 		if *readtimeout > 0 {
 			common.Debug("SetReadDeadline: %v", *readtimeout)
 
@@ -68,11 +76,12 @@ func send(connection common.EndpointConnection, filename string) error {
 			return err
 		}
 
-		if !*plain {
-			receiveBuffer = receiveBuffer[1 : n-2]
-		}
+		receiveBuffer = receiveBuffer[:n]
 
-		fmt.Printf("%+v\n", string(receiveBuffer))
+		common.Info("")
+		common.Info("ACK received:")
+
+		common.Info("%q\n", receiveBuffer)
 	}
 
 	return nil
@@ -120,8 +129,6 @@ func run() error {
 
 			if *loopCount > 1 {
 				common.Info("Loop: #%d: %s\n", c, path)
-			} else {
-				common.Info("%s\n", path)
 			}
 
 			err := send(connection, path)
