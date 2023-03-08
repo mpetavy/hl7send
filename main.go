@@ -46,7 +46,7 @@ func send(connection common.EndpointConnection, filename string) error {
 	buf.Write(HL7End)
 
 	common.Info("")
-	common.Info("%q\n", buf.Bytes())
+	common.Info(common.PrintBytes(buf.Bytes()))
 	common.Info("")
 
 	n, err := connection.Write(buf.Bytes())
@@ -81,7 +81,7 @@ func send(connection common.EndpointConnection, filename string) error {
 		common.Info("")
 		common.Info("ACK received:")
 
-		common.Info("%q\n", receiveBuffer)
+		common.Info(common.PrintBytes(receiveBuffer))
 	}
 
 	return nil
