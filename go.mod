@@ -2,7 +2,7 @@ module github.com/mpetavy/hl7send
 
 go 1.19
 
-require github.com/mpetavy/common v1.5.64
+require github.com/mpetavy/common v1.5.65
 
 require (
 	cloud.google.com/go v0.88.0 // indirect
@@ -15,6 +15,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.3.1 // indirect
 	github.com/go-ini/ini v1.62.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
+	github.com/go-sql-driver/mysql v1.4.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
