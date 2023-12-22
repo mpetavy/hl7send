@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"crypto/tls"
+	"embed"
 	"flag"
-	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -26,8 +26,11 @@ var (
 	HL7End   = []byte{0x1c, 0xd}
 )
 
+//go:embed go.mod
+var resources embed.FS
+
 func init() {
-	common.Init("hl7send", "1.0.4", "", "", "2018", "Send HL7/TXT files", "mpetavy", fmt.Sprintf("https://github.com/mpetavy/%s", common.Title()), common.APACHE, nil, nil, nil, run, 0)
+	common.Init("", "", "", "", "Send HL7/TXT files", "", "", "", &resources, nil, nil, run, 0)
 }
 
 func send(connection common.EndpointConnection, filename string) error {
