@@ -4,7 +4,7 @@ go 1.21
 
 toolchain go1.21.0
 
-require github.com/mpetavy/common v1.7.10
+require github.com/mpetavy/common v1.7.11
 
 require (
 	cloud.google.com/go v0.110.2 // indirect
