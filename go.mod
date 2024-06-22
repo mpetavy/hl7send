@@ -4,7 +4,7 @@ go 1.21
 
 toolchain go1.21.0
 
-require github.com/mpetavy/common v1.8.12
+require github.com/mpetavy/common v1.8.13
 
 require (
 	github.com/beevik/etree v1.1.4 // indirect
