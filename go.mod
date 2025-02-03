@@ -4,7 +4,7 @@ go 1.23
 
 toolchain go1.23.2
 
-require github.com/mpetavy/common v1.9.68
+require github.com/mpetavy/common v1.9.69
 
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
