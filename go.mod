@@ -4,14 +4,14 @@ go 1.23.0
 
 toolchain go1.23.6
 
-require github.com/mpetavy/common v1.10.38
+require github.com/mpetavy/common v1.10.42
 
 require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/beevik/etree v1.1.4 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/creack/goselect v0.1.2 // indirect
-	github.com/dlclark/regexp2 v1.11.2 // indirect
+	github.com/dlclark/regexp2 v1.11.4 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
